@@ -2,22 +2,26 @@ package main
 
 import "fmt"
 
+type car struct {
+    Make string
+    Model string
+}
+
+type truck struct {
+    car // this is embedded struck (not the same as nested struct)
+    bedSize int
+}
+
+type anotherTruck struct {
+    anotherCar car
+    bedSize int
+}
+
+func (t truck) concat() { 
+    fmt.Printf("The make and model of truck are: %s, %s respectively\n", t.Make, t.Model)
+}
+
 func main() {
-    type car struct {
-        Make string
-        Model string
-    }
-
-    type truck struct {
-        car // this is embedded struck (not the same as nested struct)
-        bedSize int
-    }
-
-    type anotherTruck struct {
-        anotherCar car
-        bedSize int
-    }
-
     newerTruck := anotherTruck {
         bedSize: 20,
         anotherCar: car {
@@ -38,8 +42,10 @@ func main() {
 
     fmt.Printf("The truck: %s\n", newTruck.Make)
 
-    newCar := car{}
+    newCar := car {}
     newCar.Make = "ford"
 
     fmt.Println("The car: ", newCar.Make)
+
+    newTruck.concat()
 }
